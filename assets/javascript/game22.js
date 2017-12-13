@@ -1,4 +1,3 @@
-// https://www.youtube.com/watch?v=E1MGIzCaf-U&feature=youtu.be
 var images = [
   "assets/images/redgem.png",
   "assets/images/bluegem.png",
@@ -15,8 +14,8 @@ var sounds = [
   "assets/sounds/wv_sword.mp3"
 ]
 
-var targetScore;  //gets Random number from function newTargetScore()
-var randomCystals;  //gets Random numbers from function getCrystalNum () and pass as Argument to generate_New_Game(randomCystals)
+var targetScore; //gets Random number from function newTargetScore()
+var randomCystals; //gets Random numbers from function getCrystalNum () and pass as Argument to generate_New_Game(randomCystals)
 var totalScore;
 var wins = 0;
 $('#wins').html("<b>Wins:</b>  " + wins);
@@ -27,25 +26,19 @@ $('#alert').html("<b>Well, these Gems ain't gone click themselves!</b>");
 var audioWin = new Audio("assets/sounds/win.mp3");
 var audioLose = new Audio("assets/sounds/Failure.mp3");
 // var audio = getSongNum()
-var number = 20;
-var intervalId;
-var isCurrentlyPlaying = false;
-// runTimer()
+var number = 40; //number of Seconds user has to reach targetScore
+$('#show-number').html(number + " <h5><b>Seconds Left to reach the Target Score!</b></h5>");
+var intervalId; //var for the second decrement
+var isTimerRunning = false;
 
 
-
-// $(".crystal-image").on("click", function() {
-//     if (!isCurrentlyPlaying) {
-//         runTimer();
-
-
-// FUNCTION MAP/FLOWCHART
+//                   FUNCTION MAP/FLOWCHART
 //
-// generate_New_Game() invokes
+// generate_New_Game() set isTimerRunning back to False and invokes
 //       generate_New_Crystal_Imgs()  & onClickRunAgain()
 //
-// onClickRunAgain() invokes
-//         win() || lose() && gemsToGo()
+// onClickRunAgain() sets isTimerRunning to true and invokes
+//        runTimer(), gemsToGo() and win() || lose()
 //
 // Win() || lose() invokes
 //         noClick_After_Win_Lose() && resetGame()
@@ -53,6 +46,8 @@ var isCurrentlyPlaying = false;
 // resetGame()  listens for Keycode 32 (Spacebar) and invokes
 //       generate_New_Game()  and the cycle continues
 //
+// runTimer invokes
+        // decrement() and stopClock()
 
 
 
@@ -99,7 +94,7 @@ function onClickRunAgain() {
     // on( events [, selector ] [, data ], handler )
     // $("#crystals").on("click", ".crystal-image", function(){
 
-    isCurrentlyPlaying = true;
+
 
 
     var crystalValue = ($(this).attr("data-crystalvalue"));
@@ -108,8 +103,10 @@ function onClickRunAgain() {
     $('#total_score').html("<b>Total Score:</b>  " + totalScore);
 
     gemsToGo()
-    if (isCurrentlyPlaying === true){
-    runTimer()}
+
+    if (isTimerRunning === false) {
+      runTimer()
+    }
 
     if (totalScore === targetScore) {
       wins++
@@ -133,8 +130,11 @@ function generate_New_Game() {
   $('#target_score').html("<b>Target Score:</b> " + targetScore);
   totalScore = 0;
   $('#total_score').html("<b>Score:</b>  " + totalScore);
+  number = 40;
+  $('#show-number').html(number + " <h5><b>Seconds Left to reach the Target Score!</b></h5>");
   randomCystals = getCrystalNum();
-  // console.log(randomCystals);
+  console.log(randomCystals);
+  isTimerRunning = false
   generate_New_Crystal_Imgs()
   onClickRunAgain()
 }
@@ -142,7 +142,7 @@ function generate_New_Game() {
 // resetGame() waits and listens for the spacebar to be depressed
 // when depressed it removes any classes added during the win() || lose()
 // invokes generate_New_Game()
-fuction resetGame(){
+function resetGame() {
   document.addEventListener("keyup", function(e) {
     if (event.keyCode === 32) {
       targetScore = newTargetScore();
@@ -218,28 +218,32 @@ function gemsToGo() {
   $('#alert').html(gemsLeft + " <b>Gems to Go...Keep Clicking!!!</b>");
 }
 
+// runTimer() runs count down timer only if isTimerRunning =true
 function runTimer() {
+  isTimerRunning = true;
   intervalId = setInterval(decrement, 1000);
 }
 
-function decrement(){
+// decrement() decreases clock timer by -1. And sets if statment for if times runs out
+function decrement() {
   number--;
-  $("#show-number").html("<h2>" + number + "</h2>");
-  if (number === 0) {
+  $("#show-number").html(number + " <h6><b>Seconds Left to reach the Target Score!</b></h6>");
+  // if(number > 5) {
+  //     $('#show-number').addClass("blink");
+  // }
+  if (totalScore < targetScore && number === 0) {
+    loses++
+    $('#loses').html("<b>Loses:</b> " + loses);
+    loseGame()
+    stopClock()
+
+  } else if (totalScore === targetScore && number !== 0) {
+    winGame()
     stopClock()
   }
-  // else if (totalScore < targetScore) {
-  //   stopClock ()
-  // }
-  // else (number === 0 && totalScore < targetScore)
-  //   stopClock ()
-  //   loses++
-  //   $('#loses').html("<b>Loses:</b> " + loses);
-  //   loseGame()
-  }
+}
 
-
-
-function stopClock () {
+//stopClock clears the clock timer
+function stopClock() {
   clearInterval(intervalId)
 }
