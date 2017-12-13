@@ -14,6 +14,8 @@ var sounds = [
   "assets/sounds/wv_sword.mp3"
 ]
 
+var audio1 = new Audio("assets/sounds/steelsword.mp3");
+
 var targetScore; //gets Random number from function newTargetScore()
 var randomCystals; //gets Random numbers from function getCrystalNum () and pass as Argument to generate_New_Game(randomCystals)
 var totalScore;
@@ -68,7 +70,7 @@ function generate_New_Crystal_Imgs() {
   for (var i = 0; i < randomCystals.length; i++) {
     var imageCrystal = $("<img>");
     imageCrystal.addClass("crystal-image");
-    // audioFile.attr("src", sounds[i]);
+    // imageCrystal.attr("audio", sounds[i]);
     imageCrystal.attr("src", images[i]);
     imageCrystal.attr("data-crystalValue", randomCystals[i]);
     $("#crystals").append(imageCrystal);
@@ -94,13 +96,15 @@ function onClickRunAgain() {
     // on( events [, selector ] [, data ], handler )
     // $("#crystals").on("click", ".crystal-image", function(){
 
-
-
-
     var crystalValue = ($(this).attr("data-crystalvalue"));
     crystalValue = parseInt(crystalValue);
     totalScore += crystalValue;
     $('#total_score').html("<b>Total Score:</b>  " + totalScore);
+
+
+
+// $("#audio1").attr("src", sounds[i]);
+audio1.play();
 
     gemsToGo()
 
@@ -228,9 +232,11 @@ function runTimer() {
 function decrement() {
   number--;
   $("#show-number").html(number + " <h6><b>Seconds Left to reach the Target Score!</b></h6>");
-  // if(number > 5) {
-  //     $('#show-number').addClass("blink");
-  // }
+
+  if(number < 10) {
+      $('#show-number').addClass("blink1");
+  }
+
   if (totalScore < targetScore && number === 0) {
     loses++
     $('#loses').html("<b>Loses:</b> " + loses);
