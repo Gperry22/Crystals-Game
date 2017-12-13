@@ -241,6 +241,9 @@ function decrement() {
     winGame()
     stopClock()
   }
+ else if (totalScore > targetScore && number !== 0) {
+  stopClock()
+}
 }
 
 //stopClock clears the clock timer
