@@ -1,0 +1,79 @@
+/*image class height and width*/
+.crystal-image {
+  width: 150px;
+  height: 150px;
+}
+
+body {
+  background-color: black;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  font-size: 24px;
+}
+
+/*Border for under Logo*/
+.gpborder {
+  border-bottom: 1px solid gold;
+}
+
+
+#instructions {
+  background-color: black;
+  height: auto;
+  display: block;
+  margin-top: 200px;
+  margin-bottom: 200px;
+  border: 5px solid white;
+  z-index: 9999;
+  color: white;
+}
+
+/*.blink provide blicking animation */
+.blink {
+  animation: blinker 2s linear infinite;
+}
+
+.blink2 {
+  animation: blinker 4s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+/*Below are my custom margins and spacing all start with "gp"*/
+.gpspacetopmargin {
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+.gpspacebottommargin {
+  margin-bottom: 70px;
+}
+
+.gpspacetoppadding {
+  padding-top: 140px;
+}
+
+.gpspacebottommargin1 {
+  margin-bottom: 30px;
+}
+
+.gppadding {
+  padding: 10px;
+}
+
+
+.seeMeseeMeNot {
+  visibility: visible;
+}
+
+/*Media query to hide characters in Logo when screen is resized*/
+@media only screen and (max-width: 980px) and (min-width: 0px) {
+  .seeMeseeMeNot {
+    visibility: hidden;
+  }
+}
