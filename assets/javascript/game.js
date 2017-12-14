@@ -14,7 +14,7 @@ var sounds = [
   "assets/sounds/wv_sword.mp3"
 ]
 
-var audio1 = new Audio("assets/sounds/steelsword.mp3");
+// var audio1 = new Audio("assets/sounds/steelsword.mp3");
 
 var targetScore; //gets Random number from function newTargetScore()
 var randomCystals; //gets Random numbers from function getCrystalNum () and pass as Argument to generate_New_Game(randomCystals)
@@ -27,7 +27,6 @@ var alert;
 $('#alert').html("<b>Well, these Gems ain't gone click themselves!</b>");
 var audioWin = new Audio("assets/sounds/win.mp3");
 var audioLose = new Audio("assets/sounds/Failure.mp3");
-// var audio = getSongNum()
 var number = 40; //number of Seconds user has to reach targetScore
 $('#show-number').html(number + " <h5><b>seconds Left to reach the Target Score!</b></h5>");
 var intervalId; //var for the second decrement
@@ -49,7 +48,7 @@ var isTimerRunning = false;
 //       generate_New_Game()  and the cycle continues
 //
 // runTimer invokes
-        // decrement() and stopClock()
+// decrement() and stopClock()
 
 
 
@@ -70,23 +69,13 @@ function generate_New_Crystal_Imgs() {
   for (var i = 0; i < randomCystals.length; i++) {
     var imageCrystal = $("<img>");
     imageCrystal.addClass("crystal-image");
-    // imageCrystal.attr("audio", sounds[i]);
     imageCrystal.attr("src", images[i]);
     imageCrystal.attr("data-crystalValue", randomCystals[i]);
+    imageCrystal.attr("data-soundValue", sounds[i]);
     $("#crystals").append(imageCrystal);
-    // var audioFile = $("<audio>")
-    // $("#crystals").append(audioFile);
+
   }
 }
-
-
-// function generate_New_Crystal_Imgs() {
-//   $("#crystals").empty();
-//   for (var i = 0; i < sounds.length; i++) {
-//     var audioFile = $("<audio>")
-//     $("#crystals").append(audioFile);
-//   }
-// }
 
 // onClickRunAgain () is an anonymous fuction wrapped in a fuction
 // this was done becuase as the DOM is empty the .on"Click" needs to be Added
@@ -96,15 +85,18 @@ function onClickRunAgain() {
     // on( events [, selector ] [, data ], handler )
     // $("#crystals").on("click", ".crystal-image", function(){
 
-    var crystalValue = ($(this).attr("data-crystalvalue"));
+    var crystalValue = ($(this).attr("data-crystalValue"));
     crystalValue = parseInt(crystalValue);
     totalScore += crystalValue;
     $('#total_score').html("<b>Total Score:</b>  " + totalScore);
 
+    var audio1 = new Audio($(this).attr("data-soundValue"));
 
+    audio1.play();
 
-// $("#audio1").attr("src", sounds[i]);
-audio1.play();
+    // var ranSong = Math.floor(Math.random() * sounds.length) + 0;
+    // for (i<0; i < sounds.length; i++)
+    // return = sounds
 
     gemsToGo()
 
@@ -123,8 +115,6 @@ audio1.play();
     }
   });
 }
-
-
 
 
 //generate_New_Game() resets all the orginal Vars
@@ -233,8 +223,8 @@ function decrement() {
   number--;
   $("#show-number").html(number + " <h6><b>Seconds Left to reach the Target Score!</b></h6>");
 
-  if(number < 10) {
-      $('#show-number').addClass("blink1");
+  if (number < 10) {
+    $('#show-number').addClass("blink1");
   }
 
   if (totalScore < targetScore && number === 0) {
@@ -246,10 +236,9 @@ function decrement() {
   } else if (totalScore === targetScore && number !== 0) {
     winGame()
     stopClock()
+  } else if (totalScore > targetScore && number !== 0) {
+    stopClock()
   }
- else if (totalScore > targetScore && number !== 0) {
-  stopClock()
-}
 }
 
 //stopClock clears the clock timer
