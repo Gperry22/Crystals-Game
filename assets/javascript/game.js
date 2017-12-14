@@ -26,7 +26,7 @@ $('#loses').html("<b>Loses:</b> " + loses);
 var alert;
 $('#alert').html("<b>Well, these Gems ain't gone click themselves!</b>");
 var audioWin = new Audio("assets/sounds/win.mp3");
-var audioLose = new Audio("assets/sounds/Failure.mp3");
+var audioLose = new Audio("assets/sounds/failure.mp3");
 var number = 40; //number of Seconds user has to reach targetScore
 $('#show-number').html(number + " <h5><b>seconds Left to reach the Target Score!</b></h5>");
 var intervalId; //var for the second decrement
@@ -107,10 +107,12 @@ function onClickRunAgain() {
     if (totalScore === targetScore) {
       wins++
       $('#wins').html("<b>Wins:</b>  " + wins);
+      noClick_After_Win_Lose()
       winGame()
     } else if (totalScore > targetScore) {
       loses++
       $('#loses').html("<b>Loses:</b> " + loses);
+      noClick_After_Win_Lose()
       loseGame()
     }
   });
@@ -131,14 +133,18 @@ function generate_New_Game() {
   isTimerRunning = false
   generate_New_Crystal_Imgs()
   onClickRunAgain()
+  $("#playAgain").removeClass('showPlayAgainButton blink');
+  $("#playAgain").addClass('hidePlayAgainButton');
+  $('#show-number').removeClass("blink1");
 }
 
 // resetGame() waits and listens for the spacebar to be depressed
 // when depressed it removes any classes added during the win() || lose()
 // invokes generate_New_Game()
+
 function resetGame() {
-  document.addEventListener("keyup", function(e) {
-    if (event.keyCode === 32) {
+  // $("#playAgain").addEventListener("click", function() {
+    // if (event.keyCode === 32) {
       targetScore = newTargetScore();
       $('#target_score').html("<b>Target Score:</b> " + targetScore);
       totalScore = 0;
@@ -147,9 +153,10 @@ function resetGame() {
       $('#alert').removeClass("blink");
       $('#alert').html("<b>Well, these Gems ain't gone click themselves!</b>");
       generate_New_Game()
-    }
-  })
+    // }
+  // });
 }
+
 
 // getCrystalNum() creates an array of 5 random numbers betweeen 1-12 that will
 // not match each other.  getCrystalNum is set each to randomCystals in the
@@ -178,10 +185,14 @@ function newTargetScore() {
 function winGame() {
   $('#crystals').addClass("blink2");
   $('#alert').addClass("blink");
-  $('#alert').html("You Win!!! To play again Hit the 'Spacebar'");
+  $('#alert').html("You Win!!! Click Play Again to play more.");
   audioWin.play();
   noClick_After_Win_Lose()
+  $("#playAgain").removeClass('hidePlayAgainButton');
+  $("#playAgain").addClass('showPlayAgainButton blink');
+  $("#playAgain").on("click", function() {
   resetGame()
+});
 }
 
 
@@ -192,10 +203,15 @@ function winGame() {
 function loseGame() {
   $('#crystals').addClass("blink2");
   $('#alert').addClass("blink");
-  $('#alert').html("You Lose, Better Luck Next Time...  To play again Hit the 'Spacebar'");
+  $('#alert').html("You Lose, Click Play Again to try once more");
   audioLose.play();
   noClick_After_Win_Lose()
+  $("#playAgain").removeClass('hidePlayAgainButton');
+  $("#playAgain").addClass('showPlayAgainButton blink');
+  $("#playAgain").on("click", function() {
   resetGame()
+});
+
 }
 
 //Turns of the .onClick is reset by generate_New_Game()

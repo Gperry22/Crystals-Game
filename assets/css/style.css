@@ -80,6 +80,14 @@ body {
   visibility: visible;
 }
 
+.showPlayAgainButton{
+visibility: visible;
+}
+
+.hidePlayAgainButton {
+  visibility: hidden;
+}
+
 .picgp {
   height: auto;
   width: 100%;
