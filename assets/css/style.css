@@ -38,11 +38,15 @@ body {
 .blink {
   animation: blinker 2s linear infinite;
 }
+
+/*.blink provide blicking animation when timer is <10 seconds */
+
 .blink1 {
   animation: blinker 2s linear infinite;
   color: red;
 }
 
+/*.blink provide blicking animation for Enter button*/
 .blink2 {
   animation: blinker 4s linear infinite;
 }
@@ -88,12 +92,14 @@ visibility: visible;
   visibility: hidden;
 }
 
+/* Image settings for Logo */
 .picgp {
   height: auto;
   width: 100%;
   max-width: 400px;
 }
 
+/* Image settings for characters alongside logo */
 .picgp1 {
   height: 100%;
   width: auto;

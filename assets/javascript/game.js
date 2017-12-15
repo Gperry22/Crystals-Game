@@ -13,7 +13,7 @@ var sounds = [
   "assets/sounds/swordraw.mp3",
   "assets/sounds/wv_sword.mp3"
 ]
-
+// This is another way the single song can be added.
 // var audio1 = new Audio("assets/sounds/steelsword.mp3");
 
 var targetScore; //gets Random number from function newTargetScore()
@@ -56,10 +56,7 @@ var isTimerRunning = false;
 //generate_New_Crystal_Imgs() and onClickRunAgain()
 generate_New_Game(randomCystals)
 
-
-
 ////////////////////The game itself/////////////////////////////
-
 
 ///function generate_New_Crystal_Imgs empties the DOM each game and recreates
 // the imageCrystals to be added back.  It is called by the generate_New_Game ()
@@ -82,6 +79,7 @@ function generate_New_Crystal_Imgs() {
 //back to imageCrystal.  This function is called by generate_New_Game()
 function onClickRunAgain() {
   $(".crystal-image").on("click", function() {
+    // another way this could have be written Event Delegation
     // on( events [, selector ] [, data ], handler )
     // $("#crystals").on("click", ".crystal-image", function(){
 
@@ -93,10 +91,6 @@ function onClickRunAgain() {
     var audio1 = new Audio($(this).attr("data-soundValue"));
 
     audio1.play();
-
-    // var ranSong = Math.floor(Math.random() * sounds.length) + 0;
-    // for (i<0; i < sounds.length; i++)
-    // return = sounds
 
     gemsToGo()
 
@@ -141,22 +135,25 @@ function generate_New_Game() {
 // resetGame() waits and listens for the spacebar to be depressed
 // when depressed it removes any classes added during the win() || lose()
 // invokes generate_New_Game()
+//
+// UPDATE For users to play on mobile, resetGame() waits and listens for click button defined in
+// winGame() || loseGame() and it removes any classes added during the win() || lose()
+// invokes generate_New_Game()
 
 function resetGame() {
   // $("#playAgain").addEventListener("click", function() {
-    // if (event.keyCode === 32) {
-      targetScore = newTargetScore();
-      $('#target_score').html("<b>Target Score:</b> " + targetScore);
-      totalScore = 0;
-      $('#total_score').html("<b>Total Score:</b>  " + totalScore);
-      $('#crystals').removeClass("blink2");
-      $('#alert').removeClass("blink");
-      $('#alert').html("<b>Well, these Gems ain't gone click themselves!</b>");
-      generate_New_Game()
-    // }
+  // if (event.keyCode === 32) {
+  targetScore = newTargetScore();
+  $('#target_score').html("<b>Target Score:</b> " + targetScore);
+  totalScore = 0;
+  $('#total_score').html("<b>Total Score:</b>  " + totalScore);
+  $('#crystals').removeClass("blink2");
+  $('#alert').removeClass("blink");
+  $('#alert').html("<b>Well, these Gems ain't gone click themselves!</b>");
+  generate_New_Game()
+  // }
   // });
 }
-
 
 // getCrystalNum() creates an array of 5 random numbers betweeen 1-12 that will
 // not match each other.  getCrystalNum is set each to randomCystals in the
@@ -182,6 +179,13 @@ function newTargetScore() {
 // classes to add animation are called and the clicking of
 // crystals is turned off by invoking the noClick_After_Win_Lose()
 // resetGame() is invoked
+
+// Update  instead of adding a addEventListener for the spacebar in resetGame()
+// I added a on.click fuction to a button the was hidden but revealed after a win or
+// lose.  This was added becuase some  users play on mobile devices and there is no
+// spacebar.  After the button is clicked the reset function is called and the button is
+// hidden again at the start of a new game.
+
 function winGame() {
   $('#crystals').addClass("blink2");
   $('#alert').addClass("blink");
@@ -191,15 +195,21 @@ function winGame() {
   $("#playAgain").removeClass('hidePlayAgainButton');
   $("#playAgain").addClass('showPlayAgainButton blink');
   $("#playAgain").on("click", function() {
-  resetGame()
-});
+    resetGame()
+  });
 }
-
 
 // Win a user loses the game winGame() is invoked
 // classes to add animation are called and the clicking of
 // crystals is turned off by invoking the noClick_After_Win_Lose()
 // resetGame() is invoked
+
+// Update  instead of adding a addEventListener for the spacebar in resetGame()
+// I added a on.click fuction to a button the was hidden but revealed after a win or
+// lose.  This was added becuase some  users play on mobile devices and there is no
+// spacebar.  After the button is clicked the reset function is called and the button is
+// hidden again at the start of a new game.
+
 function loseGame() {
   $('#crystals').addClass("blink2");
   $('#alert').addClass("blink");
@@ -209,8 +219,8 @@ function loseGame() {
   $("#playAgain").removeClass('hidePlayAgainButton');
   $("#playAgain").addClass('showPlayAgainButton blink');
   $("#playAgain").on("click", function() {
-  resetGame()
-});
+    resetGame()
+  });
 
 }
 
